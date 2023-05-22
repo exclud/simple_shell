@@ -19,7 +19,7 @@ void exec_cmd(char *args[])
 	pid = fork();
 	if (pid == 0)
 	{
-		execve(args[0], args, environ);
+		execvp(args[0], args);
 		printf("%s: %d: %s: command not found\n", shell, line_number, args[0]);
 		exit(1);
 	}
