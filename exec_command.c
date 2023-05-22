@@ -13,25 +13,23 @@
 
 void exec_cmd(char *args[])
 {
-int status;
-pid_t pid;
+	int status;
+	pid_t pid;
 
-pid = fork();
-if (pid == 0)
-{
-execvp(args[0], args);
-printf("%s: %d: %s: command not found\n", shell, line_number, args[0]);
-exit(1);
+	pid = fork();
+	if (pid == 0)
+	{
+		execve(args[0], args, environ);
+		printf("%s: %d: %s: command not found\n", shell, line_number, args[0]);
+		exit(1);
+	}
+	else if (pid > 0)
+	{
+		wait(&status);
+	}
+	else
+	{
+		perror("Forking process failed\n");
+		exit(1);
+	}
 }
-else if (pid > 0)
-{
-wait(&status);
-}
-else
-{
-perror("Forking process failed\n");
-exit(1);
-}
-}
-
-

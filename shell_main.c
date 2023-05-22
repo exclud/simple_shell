@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 	char *command = NULL;
 	size_t n = 0;
 	char *args[MAX_NUM_ARGS + 1];
-	
+
 	(void)argc;
 	shell = *argv;
 

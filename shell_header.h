@@ -10,6 +10,8 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+extern char **environ;
+
 /* Function Prototypes */
 void parse_cmd(char *command, char *args[]);
 void exec_cmd(char *args[]);
