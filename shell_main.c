@@ -16,43 +16,42 @@
  */
 int main(int argc, char **argv)
 {
-char *command = NULL;
-size_t n = 0;
-char *args[MAX_NUM_ARGS + 1];
+	char *command = NULL;
+	size_t n = 0;
+	char *args[MAX_NUM_ARGS + 1];
+	
+	(void)argc;
+	shell = *argv;
 
-(void)argc;
-shell = *argv;
-
-if (!isatty(STDIN_FILENO))
-{
-if (getline(&command, &n, stdin) == -1)
-{
-perror("Error: unable to read command with getline()\n");
-return (1);
-}
-command[strcspn(command, "\n")] = '\0';
-parse_cmd(command, args);
-exec_cmd(args);
-free(command);
-return (0);
-}
-while (1)
-{
-printf(">> ");
-if (getline(&command, &n, stdin) == -1)
-{
-perror("Error: unable to read command with getline()\n");
-break;
-}
-command[strcspn(command, "\n")] = '\0';
-parse_cmd(command, args);
-
-if (strcmp(args[0], "exit") == 0)
-{
-break;
-}
-exec_cmd(args);
-}
-free(command);
-return (0);
+	if (!isatty(STDIN_FILENO))
+	{
+		if (getline(&command, &n, stdin) == -1)
+		{
+			perror("Error: unable to read command with getline()\n");
+			return (1);
+		}
+		command[strcspn(command, "\n")] = '\0';
+		parse_cmd(command, args);
+		exec_cmd(args);
+		free(command);
+		return (0);
+	}
+	while (1)
+	{
+		printf("$ ");
+		if (getline(&command, &n, stdin) == -1)
+		{
+			perror("Error: unable to read command with getline()\n");
+			break;
+		}
+		command[strcspn(command, "\n")] = '\0';
+		parse_cmd(command, args);
+		if (strcmp(args[0], "exit") == 0)
+		{
+			break;
+		}
+		exec_cmd(args);
+	}
+	free(command);
+	return (0);
 }
